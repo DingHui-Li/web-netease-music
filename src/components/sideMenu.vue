@@ -71,7 +71,7 @@ export default {
             position: absolute;
             z-index: 0;
             background: $primary;
-            width: 220px;
+            width: calc(100% - 30px);
             height: 40px;
             transition: top .2s;
             transition-timing-function:ease-out;

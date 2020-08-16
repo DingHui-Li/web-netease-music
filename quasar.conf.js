@@ -79,7 +79,7 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       iconSet: 'fontawesome-v5', // Quasar icon set
-      lang: 'en-us', // Quasar language pack
+      lang: 'zh-hans', // Quasar language pack
       config: {},
 
       // Possible values for "importStrategy":
@@ -93,7 +93,9 @@ module.exports = function (/* ctx */) {
       //
       components: [
         'QInput','QIcon','QAvatar','QBtnDropdown','QBadge',
-        'QCarousel','QCarouselControl','QCarouselSlide'
+        'QCarousel','QCarouselControl','QCarouselSlide',
+        'QScrollArea','QImg','QChip',
+        'QTabs','QTab','QTabPanels','QTabPanel'
       ],
       // directives: [],
 

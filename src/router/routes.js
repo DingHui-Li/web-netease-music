@@ -7,6 +7,7 @@ const routes = [
       { path: '', redirect:'/find' },
       { path: '/find',component: () => import('pages/find')},
       { path: '/fm', component: () => import('pages/fm') },
+      { path: '/song-list',name:'song-list',component: () => import('pages/songList') },
     ]
   }
 

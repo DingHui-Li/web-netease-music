@@ -10,9 +10,13 @@
                 </div>
                 <div class="content">
                     <Topbar />
-                    <transition enter-active-class="animate__animated animate__slideInDown" leave-active-class="animate__animated animate__slideOutDown">
-                        <router-view />
-                    </transition>
+                        <scroll-area>
+                            <transition enter-active-class="animate__animated animate__slideInDown" leave-active-class="animate__animated animate__slideOutDown">
+                                <keep-alive>
+                                    <router-view />
+                                </keep-alive>
+                            </transition>
+                        </scroll-area>
                 </div>
             </div>
         </div>
@@ -21,10 +25,11 @@
 
 <script>
 import 'animate.css'
+import ScrollArea from '../components/scrollArea'
 import SideMenu from '../components/sideMenu'
 import Topbar from '../components/topBar'
 export default {
-    components:{SideMenu,Topbar}
+    components:{SideMenu,Topbar,ScrollArea}
 }
 </script>
 
@@ -58,8 +63,8 @@ export default {
             align-items: center;
             justify-content: center;
             .box{
-                max-width: 1200px;
-                max-height: 800px;
+                // max-width: 1200px;
+                // max-height: 800px;
                 height: 100%;
                 width: 100%;
                 position: relative;
@@ -77,7 +82,8 @@ export default {
                     flex: 1;
                     position: relative;
                     background: #fff;
-                    min-width: 500px;
+                    min-width: 900px;
+                    height: 100%;
                 }
             }
         }

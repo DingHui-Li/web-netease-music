@@ -7,7 +7,7 @@
         </q-input>
         <div class="user-info">
             <q-avatar size="45px">
-                <img src="https://cdn.quasar.dev/img/avatar.png">
+                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3452544685,1844225866&fm=26&gp=0.jpg">
             </q-avatar>
             <div>
                 <div class="name">Name</div>
@@ -36,7 +36,7 @@ export default {
 
 <style lang='scss' scoped>
     #top-bar{
-        padding: 15px;
+        padding: 15px 30px;
         position: relative;
         z-index: 2;
         background: #fff;
