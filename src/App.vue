@@ -9,18 +9,18 @@ export default {
 }
 </script>
 <style lang="scss">
-  .pop-menu{
-    background: rgba($color: #fff, $alpha: 0.7);
+*{
+  scroll-behavior: smooth;
+  padding:0;
+  margin:0;
+}
+body{
+  overflow: auto;
+  overflow-x: hidden;
+}
+  .pop-menu,.q-menu{
     position: relative;
-    &::after{
-      content: '';
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      filter: blur(20px);
-      
-    }
+    background: rgba($color: #fff, $alpha: 0.7);
+    backdrop-filter: blur(10px);
   }
 </style>

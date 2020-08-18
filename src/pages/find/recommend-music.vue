@@ -6,7 +6,7 @@
                 <div class="item">
                     <vue-aspect-ratio width="100%" ar='4:3'>
                         <div class="cover">
-                            <img :src="music.picUrl" alt="" srcset="">
+                            <img :src="music.picUrl+'?param=500y500'" alt="" srcset="">
                         </div>
                     </vue-aspect-ratio>
                     <div class="title-bg">

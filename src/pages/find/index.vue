@@ -2,7 +2,7 @@
     <div id='find'>
             <div class="top">
                 <div class="left">
-                    <q-carousel v-model="slide" swipeable animated navigation class="carousel" autoplay infinite
+                    <q-carousel v-model="slide" swipeable animated navigation class="carousel" 
                         transition-prev="jump-right" transition-next="jump-left">
                         <q-carousel-slide v-for="(i,index) in carousels" :name="index+''" :key='index'>
                             <div class="carousel-slide">
@@ -95,14 +95,16 @@ export default {
 <style lang='scss' scoped>
     #find{
         width: 100%;
-        //height: 100%;
+        height: 100%;
         position: absolute;
-        transition-duration: 0.5s;
+        transition-duration: 0.7s;
         padding: 15px 0;
         padding-top: 0;
         z-index: 1;
         box-sizing: border-box;
         background: #fff;
+        overflow: auto;
+        transform: translateZ(0);
         .top{
             position: relative;
             height:calc(100% * 0.6);
@@ -198,9 +200,10 @@ export default {
                 max-width: 500px;
                 background: transparent;
                 overflow: hidden;
-                display: flex;
-                flex-direction: column;
+                // display: flex;
+                // flex-direction: column;
                 height:100%;
+                position: relative;
                 .title{
                     padding: 0 20px;
                     font-size: 1.4rem;

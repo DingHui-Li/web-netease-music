@@ -10,16 +10,13 @@
                 </div>
                 <div class="content">
                     <Topbar />
-                        <scroll-area>
-                            <transition enter-active-class="animate__animated animate__slideInDown" leave-active-class="animate__animated animate__slideOutDown">
-                                <keep-alive>
-                                    <router-view />
-                                </keep-alive>
-                            </transition>
-                        </scroll-area>
+                    <transition enter-active-class="animate__animated animate__zoomIn" leave-active-class="animate__animated animate__zoomOut">
+                        <keep-alive><router-view /></keep-alive>
+                    </transition>
                 </div>
             </div>
         </div>
+        <q-btn round icon="fas fa-angle-up" class="btn" color="primary" @click="scrollTop"></q-btn>
     </div>
 </template>
 
@@ -29,7 +26,12 @@ import ScrollArea from '../components/scrollArea'
 import SideMenu from '../components/sideMenu'
 import Topbar from '../components/topBar'
 export default {
-    components:{SideMenu,Topbar,ScrollArea}
+    components:{SideMenu,Topbar,ScrollArea},
+    methods:{
+        scrollTop(){
+            document.getElementById(this.$route.name).scrollTop=0
+        }
+    }
 }
 </script>
 
@@ -77,15 +79,22 @@ export default {
                     width: 250px;
                     min-width: 200px;
                     position: relative;
+                    height: 100vh;
                 }
                 .content{
                     flex: 1;
                     position: relative;
-                    background: #fff;
+                    background: transparent;
                     min-width: 900px;
                     height: 100%;
                 }
             }
+        }
+        .btn{
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3;
         }
     }
 </style>

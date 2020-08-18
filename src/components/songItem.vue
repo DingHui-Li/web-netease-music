@@ -1,6 +1,7 @@
 <template>
     <div class="song-item">
-        <img :src="data.al.picUrl" alt="" srcset="">
+        <div class="index">{{index}}</div>
+        <img :src="data.al.picUrl+'?param100y100'" alt="" srcset="">
         <div class="name">{{data.name}}</div>
         <div class="singers">
             <span v-for="singer in data.ar" :key="singer.id">{{singer.name}}/</span>
@@ -14,7 +15,7 @@
 
 <script>
 export default {
-    props:['data'],
+    props:['data','index'],
     computed:{
         duration(){
             let time=this.data.dt
@@ -38,8 +39,13 @@ export default {
         border-radius: 10px;
         background: #fff;
         transition: all .5s;
+        box-sizing: border-box;
         &:hover{
             box-shadow: 1px 1px 10px 1px rgba($color: #000000, $alpha: 0.1);
+        }
+        .index{
+            width: 50px;
+            font-weight: bold;
         }
         img{
             width: 60px;

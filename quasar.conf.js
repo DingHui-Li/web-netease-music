@@ -95,7 +95,8 @@ module.exports = function (/* ctx */) {
         'QInput','QIcon','QAvatar','QBtnDropdown','QBadge',
         'QCarousel','QCarouselControl','QCarouselSlide',
         'QScrollArea','QImg','QChip',
-        'QTabs','QTab','QTabPanels','QTabPanel'
+        'QTabs','QTab','QTabPanels','QTabPanel',
+        'QPopupProxy','QDialog'
       ],
       // directives: [],
 

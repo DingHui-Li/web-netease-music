@@ -6,7 +6,7 @@
             </template>
         </q-input>
         <div class="user-info">
-            <q-avatar size="45px">
+            <q-avatar size="45px" @click="login=true">
                 <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3452544685,1844225866&fm=26&gp=0.jpg">
             </q-avatar>
             <div>
@@ -25,12 +25,21 @@
                 <q-badge color="red" floating>4</q-badge>
             </q-btn>
         </div>
+        <q-dialog v-model="login" seamless >
+            <Login @close="login=false"/>
+        </q-dialog>
     </div>
 </template>
 
 <script>
+import Login from './login'
 export default {
-
+    components:{Login},
+    data(){
+        return{
+            login:false
+        }
+    }
 }
 </script>
 

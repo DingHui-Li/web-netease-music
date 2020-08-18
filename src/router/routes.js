@@ -5,9 +5,10 @@ const routes = [
     component: () => import('../layout/index.vue'),
     children: [
       { path: '', redirect:'/find' },
-      { path: '/find',component: () => import('pages/find')},
+      { path: '/find',name:'find',component: () => import('pages/find')},
       { path: '/fm', component: () => import('pages/fm') },
       { path: '/song-list',name:'song-list',component: () => import('pages/songList') },
+      { path: '/play',name:'play',component: () => import('pages/play') },
     ]
   }
 

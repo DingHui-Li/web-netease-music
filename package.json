@@ -14,7 +14,9 @@
     "@quasar/extras": "^1.0.0",
     "animate.css": "^4.1.0",
     "axios": "^0.18.1",
+    "colorthief": "^2.3.0",
     "core-js": "^3.6.5",
+    "js-md5": "^0.7.3",
     "quasar": "^1.0.0",
     "sass": "^1.26.10",
     "vue-aspect-ratio": "^0.1.1"

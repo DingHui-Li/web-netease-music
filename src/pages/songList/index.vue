@@ -1,29 +1,33 @@
 <template>
-    <div id='song-list'>
+    <div id='song-list' ref='songList'>
         <div class="left">
             <InfoCard :detil='detil'/>
             <q-tabs v-model="tab">
                 <q-tab label='歌曲列表' name="songs"></q-tab>
-                <q-tab label='评论' name='comment'></q-tab>
+                <q-tab :label='`评论(${detil.commentCount})`' name='comment'></q-tab>
             </q-tabs>
             <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="songs">
-                    <SongItem v-for="song in detil.tracks" :key="song.id" :data='song' />
+                    <SongItem v-for="(song,index) in detil.tracks" :key="song.id" :data='song' :index='index+1'/>
                 </q-tab-panel>
                 <q-tab-panel name="comment">
-                    <div>comment</div>
+                    <Comment :id='id'/>
                 </q-tab-panel>
             </q-tab-panels>
         </div>
-        <div class="right"></div>
+        <div class="right">
+            <Similar v-if='detil.trackIds' :id='detil.trackIds[0].id'/>
+        </div>
     </div>
 </template>
 
 <script>
 import InfoCard from './info'
+import Similar from './similar'
 import SongItem from '../../components/songItem'
+import Comment from './comment/index'
 export default {
-    components:{InfoCard,SongItem},
+    components:{InfoCard,SongItem,Similar,Comment},
     data(){
         return{
             id:this.$route.query.id,
@@ -50,11 +54,11 @@ export default {
         getSongsDetil(ids){
             this.$axios({
                 method:'get',
-                url:`/song/detail?ids=${ids}`
+                url:`/song/detail?id=347230`
             }).then(res=>{
-                console.log(res)
+                console.log(res.data)
             })
-        }
+        },
     },
     watch:{
         '$route'(route){
@@ -74,26 +78,32 @@ export default {
     #song-list{
         position: absolute;
         width: 100%;
-        // height: 100%;
-        transition-duration: 0.5s;
+        height: 100%;
+        transition-duration: 0.7s;
         display: flex;
         flex-direction: row;
-        background: #fff;
-        padding-bottom: 100px;
+        justify-content: center;
+        background-color: white;
+        box-sizing: border-box;
+        overflow: auto;
+        //opacity:1;
+        transform: translateZ(0);
         .left{
             flex: 2;
-            height: 100%;
             padding: 15px;
             padding-top: 0;
             position: relative;
+            margin: 0;
+            box-sizing: border-box;
             .q-tab-panel{
+                box-sizing: border-box;
                 padding:10px 0;
+                padding-right:10px;
+                padding-bottom: 100px;
             }
         }
         .right{
             flex: 1;
-            height: 100%;
-            background: green;
         }
     }
 </style>

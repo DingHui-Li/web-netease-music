@@ -2,7 +2,7 @@
     <vue-aspect-ratio ar='16:9' width="100%" style="max-width:800px">
         <div class="cover">
             <!-- <img :src="detil.picUrl||detil.coverImgUrl" class="animate__animated animate__fadeIn" alt="" srcset=""> -->
-            <q-img :src="detil.picUrl||detil.coverImgUrl" transition="jump-down"></q-img>
+            <q-img :src="(detil.picUrl||detil.coverImgUrl)+'?param=1920y1080'" transition="jump-down"></q-img>
             <div class="bg">
                 <div class="name">{{detil.name}}</div>
                 <div class="desc">
@@ -14,7 +14,10 @@
                 <div class="actions">
                     <div v-if='detil.creator' class="user">
                         <q-btn class="user-btn" round>
-                            <img :src="detil.creator.avatarUrl" alt="" srcset="">
+                            <img :src="detil.creator.avatarUrl+'?param=50y50'" alt="" srcset="">
+                            <q-popup-proxy>
+                                <UserCard :data='detil.creator'/>
+                            </q-popup-proxy>
                         </q-btn>
                         <div>
                             <div class="name">{{detil.creator.remarkName||detil.creator.nickname}}</div>
@@ -36,9 +39,10 @@
 
 <script>
 import VueAspectRatio from 'vue-aspect-ratio'
+import UserCard from '../../components/user-card'
 export default {
     props:['detil'],
-    components:{VueAspectRatio},
+    components:{VueAspectRatio,UserCard},
 }
 </script>
 
@@ -74,7 +78,7 @@ export default {
         .desc{
             font-size: 1rem;
             color: rgba($color: #fff, $alpha: 0.8);
-            max-height: 60px;
+            max-height: 100px;
             overflow: hidden;
             cursor: pointer;
             transition: all .5s;

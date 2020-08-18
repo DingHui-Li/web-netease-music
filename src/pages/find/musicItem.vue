@@ -1,10 +1,10 @@
 <template>
-    <div id='music-item'>
+    <div id='music-item' @click="$router.push({name:'play',query:{id:data.id},params:data})">
         <!-- <div>
             <q-btn class="btn" icon='fas fa-heart-outline' size="xs" flat outline round color="red" />
         </div> -->
         <div class="cover">
-            <img :src="data.album.blurPicUrl" alt="" srcset="">
+            <img :src="data.album.blurPicUrl+'?param=100y100'" alt="" srcset="">
         </div>
         <div class="name-singer">
             <div class="name">{{data.name}}</div>
