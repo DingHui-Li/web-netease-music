@@ -32,7 +32,7 @@ export default {
         getData(){
             this.$axios({
                 method:'get',
-                url:'/simi/playlist?id='+this.id
+                url:'/related/playlist?id='+this.id
             }).then(res=>{
                 if(res.data.code==200){
                     this.data=res.data.playlists
@@ -46,6 +46,7 @@ export default {
 <style lang='scss' scoped>
     .similar{
         position: relative;
+        //padding-bottom: 100px;
         .title{
             font-size:1.3rem;
             font-weight:bold;

@@ -1,8 +1,8 @@
 <template>
     <div id='recommend-song-list'>
         <div class="title">推荐歌单<span>更多</span></div>
-        <div class="item-container">
-            <div class="item-box" v-for="music in musics" :key='music.id'>
+        <div class="row">
+            <div class="col-sm-4 col-mg-4 col-lg-4 col-xl-3 item-box" v-for="music in musics" :key='music.id'>
                 <SongListItem :data='music'/>
             </div>
         </div>
@@ -25,7 +25,7 @@ export default {
         getData(){
             this.$axios({
                 method:'get',
-                url:'/personalized?limit=4'
+                url:'/personalized?limit=20'
             }).then(res=>{
                 console.log(res)
                 if(res.data.code==200){
@@ -54,17 +54,8 @@ export default {
                 cursor: pointer;
             }
         }
-        .item-container{
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            padding:0 10px;
-            // justify-content: center;
-            .item-box{
-                width: 50%;
-                padding: 10px;
-            }
+        .item-box{
+            padding: 15px;
         }
     }
 </style>

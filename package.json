@@ -19,7 +19,8 @@
     "js-md5": "^0.7.3",
     "quasar": "^1.0.0",
     "sass": "^1.26.10",
-    "vue-aspect-ratio": "^0.1.1"
+    "vue-aspect-ratio": "^0.1.1",
+    "wavesurfer.js": "^4.0.1"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

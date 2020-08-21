@@ -11,7 +11,7 @@
                     <SongItem v-for="(song,index) in detil.tracks" :key="song.id" :data='song' :index='index+1'/>
                 </q-tab-panel>
                 <q-tab-panel name="comment">
-                    <Comment :id='id'/>
+                    <Comment :id='id' type='playlist'/>
                 </q-tab-panel>
             </q-tab-panels>
         </div>
@@ -25,7 +25,7 @@
 import InfoCard from './info'
 import Similar from './similar'
 import SongItem from '../../components/songItem'
-import Comment from './comment/index'
+import Comment from '../../components/comment'
 export default {
     components:{InfoCard,SongItem,Similar,Comment},
     data(){
@@ -45,7 +45,6 @@ export default {
                 url:`/playlist/detail?id=${this.id}`
             }).then(res=>{
                 if(res.data.code==200){
-                    console.log(res.data.playlist)
                     this.detil=res.data.playlist
                     //this.getSongsDetil(res.data.playlist.trackIds.map(item=>item.id))
                 }
@@ -79,7 +78,7 @@ export default {
         position: absolute;
         width: 100%;
         height: 100%;
-        transition-duration: 0.7s;
+        transition-duration: 0.5s;
         display: flex;
         flex-direction: row;
         justify-content: center;

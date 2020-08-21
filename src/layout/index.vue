@@ -10,9 +10,11 @@
                 </div>
                 <div class="content">
                     <Topbar />
-                    <transition enter-active-class="animate__animated animate__zoomIn" leave-active-class="animate__animated animate__zoomOut">
-                        <keep-alive><router-view /></keep-alive>
-                    </transition>
+                    <div class="page">
+                        <transition enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
+                            <keep-alive><router-view /></keep-alive>
+                        </transition>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,7 +88,12 @@ export default {
                     position: relative;
                     background: transparent;
                     min-width: 900px;
-                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    .page{
+                        flex: 1;
+                        position: relative;
+                    }
                 }
             }
         }

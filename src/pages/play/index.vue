@@ -1,34 +1,67 @@
 <template>
-    <div id="play">
-        <div class="left-box">
-            <Left :data='data'/>
+    <div id="play" v-scroll='scroll' ref='play'>
+        <div class="play-box">
+            <!-- <Ctrl :data='data' /> -->
+            <Ctrl :data='data' :id='id'/>
         </div>
-        <div class="mid-box">
-            <Mid :data='data'/>
+        <div class="bottom-box">
+            <div class="comment">
+                <Comment :id='id' type='music'/>
+            </div>
+            <div class="recommend">
+                <Recommend :id='id'/>
+            </div>
         </div>
-        <div class="right-box"></div>
     </div>
 </template>
 
 <script>
-import Left from './left'
-import Mid from './mid'
+import Ctrl from './ctrl'
+// import Lyric from './lyric'
+import Recommend from './recommend'
+import Comment from '../../components/comment'
 export default {
-    components:{Left,Mid},
+    components:{Ctrl,Recommend,Comment},
     data(){
         return{
             id:this.$route.query.id,
-            data:this.$route.params
+            data:{},
+            minimize:false
         }
     },
     created(){
-
+        this.getData()
+        this.getUrl()
+    },
+    methods:{
+        getData(){
+            this.$axios({
+                method:'get',
+                url:'/song/detail?ids='+this.id
+            }).then(res=>{
+                console.log(res)
+                if(res.data.code==200){
+                    this.data=res.data.songs[0]
+                }
+            })
+        },
+        getUrl(){
+            this.$axios({
+                method:'get',
+                url:'/song/url?id='+this.id
+            }).then(res=>{
+                console.log(res)
+            })
+        },
+        scroll(e){
+            console.log(e)
+        }
     },
     watch:{
         '$route'(route){
             if(route.name=='play'){
                 this.id=route.query.id
-                this.data=route.params
+                this.getData()
             }
         },
     }
@@ -41,28 +74,26 @@ export default {
         transition: .5s;
         width: 100%;
         height: 100%;
-        overflow: auto;
         transform: translateZ(0);
         background: #fff;
-        display: flex;
-        padding: 30px;
-        padding-top: 0;
-        padding-bottom: 100px;
-        .left-box{
-            flex:2;
-            max-width: 300px;
-            height: 100%;
-            padding-top: 20px;
+        overflow: auto;
+        .play-box{
+            position: relative;
+            z-index: 9;
+            background: #fff;
+            transition: all .5s;
+            overflow: hidden;
+            height: calc(100vh - 75px);
         }
-        .mid-box{
-            flex: 3;
-            height: 100%;
-            padding-left: 50px;
-        }
-        .right-box{
-            flex: 1;
-            height: 100%;
-            background: blue;
+        .bottom-box{
+            display: flex;
+            padding:0 30px;
+            .comment{
+                flex:2
+            }
+            .recommend{
+                flex: 1;
+            }
         }
     }
 </style>

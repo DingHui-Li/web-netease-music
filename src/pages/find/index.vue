@@ -1,6 +1,6 @@
 <template>
     <div id='find'>
-            <div class="top">
+            <!-- <div class="top">
                 <div class="left">
                     <q-carousel v-model="slide" swipeable animated navigation class="carousel" 
                         transition-prev="jump-right" transition-next="jump-left">
@@ -22,17 +22,17 @@
                 </div>
                 <div class="right">
                     <div class="title">最新音乐<span>更多</span></div>
-                    <!-- <ScrollArea> -->
+                    <ScrollArea>
                         <MusicItem v-for="song in newSongs.slice(0,10)" :key="song.id" :data='song'/>
-                    <!-- </ScrollArea> -->
+                    </ScrollArea>
                 </div>
-            </div>
+            </div> -->
             <div class="bottom">
+                <div class="songs">
+                    <RecommendSongList />
+                </div>
                 <div class="recommend-music">
                     <RecommendMusic />
-                </div>
-                <div class="singers">
-                    <RecommendSongList />
                 </div>
             </div>
     </div>
@@ -97,7 +97,7 @@ export default {
         width: 100%;
         height: 100%;
         position: absolute;
-        transition-duration: 0.7s;
+        transition-duration: 0.5s;
         padding: 15px 0;
         padding-top: 0;
         z-index: 1;
@@ -107,8 +107,8 @@ export default {
         transform: translateZ(0);
         .top{
             position: relative;
-            height:calc(100% * 0.6);
-            max-height:550px;
+            height:calc(100% * 0.7);
+            //max-height:700px;
             display: flex;
             flex-direction: row;
             overflow: hidden;
@@ -224,13 +224,12 @@ export default {
         .bottom{
             display: flex;
             flex-direction: row;
-            padding-bottom: 100px;
-            margin-top: 20px;
             .recommend-music{
                 flex: 1;
             }
-            .singers{
-                flex: 1;
+            .songs{
+                flex: 4;
+                padding: 0 15px;
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="song-item">
+    <div class="song-item" @click="$router.push({name:'play',query:{id:data.id},params:data})">
         <div class="index">{{index}}</div>
         <img :src="data.al.picUrl+'?param100y100'" alt="" srcset="">
         <div class="name">{{data.name}}</div>

@@ -12,7 +12,7 @@ import HotCommentItem from './hot-comment-item'
 import CommentItem from './comment-item'
 export default {
     components:{HotCommentItem,CommentItem},
-    props:['id'],
+    props:['id','type'],
     data(){
         return{
             hotComments:[],
@@ -35,7 +35,7 @@ export default {
         getComment(){
             this.$axios({
                 method:'get',
-                url:`/comment/playlist?id=${this.id}&limit=100`
+                url:`/comment/${this.type}?id=${this.id}&limit=100`
             }).then(res=>{
                 if(res.data.code==200){
                     this.hotComments=res.data.hotComments

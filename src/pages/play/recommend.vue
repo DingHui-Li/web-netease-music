@@ -1,38 +1,41 @@
 <template>
-    <div id='recommend-music'>
-        <div class="title">推荐音乐<span>更多</span></div>
+    <div class="right">
+        <div class="title">相似歌曲</div>
         <div class="row">
-            <div class="col-xs-6 col-lg-4" v-for="music in musics" :key='music.id'>
-                <div class="item-box">
-                    <SongBlockItem :music='music'/>
-                </div>
+            <div class="col-md-4 col-lg-3" v-for="music in similars" :key='music.id' style="padding:10px">
+                <SongBlockItem :music='music'/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-
 import SongBlockItem from '../../components/songBlockItem'
 export default {
     components:{SongBlockItem},
+    props:['id'],
     data(){
         return{
-            musics:[]
+            similars:[]
         }
     },
     created(){
-        this.getData()
+        this.getSimilar()
+    },
+    watch:{
+        id(){
+            this.getSimilar()
+        }
     },
     methods:{
-        getData(){
+        getSimilar(){
             this.$axios({
                 method:'get',
-                url:'/personalized/newsong'
+                url:'/simi/song?id='+this.id
             }).then(res=>{
                 console.log(res)
                 if(res.data.code==200){
-                    this.musics=res.data.result
+                    this.similars=res.data.songs
                 }
             })
         }
@@ -41,7 +44,10 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    #recommend-music{
+    .right{
+        flex: 1;
+        height: 100%;
+        overflow: auto;
         .title{
             padding: 15px;
             padding-bottom: 0;
@@ -55,9 +61,6 @@ export default {
                 color: rgba($color: #000000, $alpha: 0.4);
                 cursor: pointer;
             }
-        }
-        .item-box{
-            padding: 10px;
         }
     }
 </style>

@@ -98,7 +98,7 @@ module.exports = function (/* ctx */) {
         'QTabs','QTab','QTabPanels','QTabPanel',
         'QPopupProxy','QDialog'
       ],
-      // directives: [],
+      directives: [''],
 
       // Quasar plugins
       plugins: []
