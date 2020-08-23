@@ -11,14 +11,15 @@
                 <div class="content">
                     <Topbar />
                     <div class="page">
-                        <transition enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
+                        <transition enter-active-class="animate__animated animate__zoomIn" 
+                                    leave-active-class="animate__animated animate__zoomOut">
                             <keep-alive><router-view /></keep-alive>
                         </transition>
                     </div>
                 </div>
             </div>
         </div>
-        <q-btn round icon="fas fa-angle-up" class="btn" color="primary" @click="scrollTop"></q-btn>
+        <q-btn round icon="fas fa-angle-up" class="btn" color="primary" @click="scrollTop" v-show="showScrollTop"></q-btn>
     </div>
 </template>
 
@@ -29,9 +30,27 @@ import SideMenu from '../components/sideMenu'
 import Topbar from '../components/topBar'
 export default {
     components:{SideMenu,Topbar,ScrollArea},
+    data(){
+        return{
+            showScrollTop:true
+        }
+    },
+    mounted(){
+        if(this.$route.name=='fm') this.showScrollTop=false
+        else this.showScrollTop=true
+    },
     methods:{
         scrollTop(){
             document.getElementById(this.$route.name).scrollTop=0
+        }
+    },
+    watch:{
+        '$route'(route){
+            if(route.name=='fm'){
+                this.showScrollTop=false
+            }else{
+                this.showScrollTop=true
+            }
         }
     }
 }
@@ -93,6 +112,7 @@ export default {
                     .page{
                         flex: 1;
                         position: relative;
+                        overflow: hidden;
                     }
                 }
             }

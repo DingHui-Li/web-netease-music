@@ -1,14 +1,14 @@
 <template>
     <div class="ctrl">
-        <div class="bg">
+        <!-- <div class="bg">
             <img :src='album.cover+"?param=500y500"' alt="" srcset="" />
-        </div>
+        </div> -->
         <div class="top">
-            <!-- <div class="cover">
+            <div class="cover">
                 <VueAspectRatio width='100%' ar='1:1' class="cover-box">
                     <q-img :src='album.cover+"?param=500y500"'></q-img>
                 </VueAspectRatio>
-            </div> -->
+            </div>
             <div class="info">
                 <div class="album">{{album.name}}</div>
                 <div class="name">{{data.name}}</div>

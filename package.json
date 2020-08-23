@@ -23,8 +23,11 @@
     "wavesurfer.js": "^4.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
     "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
@@ -33,7 +36,8 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2",
-    "strip-ansi": "^3.0.1"
+    "strip-ansi": "^3.0.1",
+    "webpack": "^4.44.1"
   },
   "browserslist": [
     "last 10 Chrome versions",

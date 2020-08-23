@@ -16,7 +16,7 @@
             </q-tab-panels>
         </div>
         <div class="right">
-            <Similar v-if='detil.trackIds' :id='detil.trackIds[0].id'/>
+            <Similar v-if='detil.trackIds' :id='id'/>
         </div>
     </div>
 </template>

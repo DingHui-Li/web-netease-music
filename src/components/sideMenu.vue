@@ -1,8 +1,7 @@
 <template>
     <div id='side-menu'>
-        <div class="selected" :style="`top:${selectedIndex*40+15}px`"></div>
-        <div class="item" v-for="(menu,index) in menus" @click="()=>{$router.push(menu.router);selectedIndex=index}" v-ripple="{ color: 'white' }"
-            :style="`color:${selectedIndex==index?'#fff':'#000'}`">
+        <!-- <div class="selected" :style="`top:${selectedIndex*40+15}px`"></div> -->
+        <div :class="`item ${selected==menu.name?'selected':''}`" v-for="(menu,index) in menus" @click="()=>{$router.push(menu.router);selected=menu.name}" v-ripple="{ color: 'white' }">
             <q-icon :name='"fas fa-"+menu.icon'></q-icon> 
             <span>{{menu.title}}</span>
         </div>
@@ -17,12 +16,14 @@ export default {
                 {
                     icon:'music',
                     title:'发现音乐',
-                    router:'/find'
+                    router:'/find',
+                    name:'find'
                 },
                 {
                     icon:'broadcast-tower',
                     title:'私人FM',
-                    router:'/fm'
+                    router:'/fm',
+                    name:'fm'
                 },
                 {
                     icon:'heart',
@@ -40,8 +41,11 @@ export default {
                     router:'/fm'
                 },
             ],
-            selectedIndex:0
+            selected:'find'
         }
+    },
+    mounted(){
+        this.selected=this.$route.name
     }
 }
 </script>
@@ -60,7 +64,7 @@ export default {
             border-radius: 5px;
             height: 40px;
             line-height: 40px;
-            transition: all .8s;
+            //transition: all .8s;
             cursor: pointer;
             user-select: none;
             span{
@@ -68,14 +72,15 @@ export default {
             }
         }
         .selected{
-            position: absolute;
-            z-index: 0;
+            // position: absolute;
+            // z-index: 0;
             background: $primary;
-            width: calc(100% - 30px);
-            height: 40px;
-            transition: top .2s;
-            transition-timing-function:ease-out;
-            border-radius: 5px;
+            color:#fff
+            // width: calc(100% - 30px);
+            // height: 40px;
+            // transition: top .2s;
+            // transition-timing-function:ease-out;
+            // border-radius: 5px;
         }
     }
 </style>

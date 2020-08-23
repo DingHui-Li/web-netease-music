@@ -1,33 +1,42 @@
 <template>
-    <div id='fm'>
+    <div id='fm' v-if='list.length>0'>
         <div class="bg">
-            <img class="img" src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597929590398&di=beb4afb61f18c941c3260aae7f399edc&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F42955e73e53a1e7a745b266301bdb629eb91a4ab1eda7-nv7pfT_fw658'></img>
+            <img class="img" :src='list[current].album.blurPicUrl+"?param=500y500"'></img>
         </div>
         <div class="row justify-center" >
             <div class="col-xs-12 col-lg-8 col-xl-6 box">
                 <div class="container">
                     <div class="left">
-                        <q-btn class="btn" round icon='fas fa-heart'></q-btn>
+                        <q-btn class="btn" round icon='fas fa-heart' size="lg"></q-btn>
                     </div>
                     <div class="mid">
-                        <div class="name">Never Be Like You (Funk LeBlanc Remix)</div>
+                        <div class="name">{{list[current].name}}</div>
                         <vue-aspect-ratio width='100%' ar='1:1'>
                             <div class="cover" @click="play=!play" v-ripple>
-                                <q-img class="img" src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3032737645,615936838&fm=26&gp=0.jpg'></q-img>
-                                <q-btn class="btn" round :icon="`fas fa-${play?'pause':'play'}`" :style="`top:${!play?'50%':'100%'};left:${!play?'50%':'100%'}`"></q-btn>
+                                <q-img class="img" :src='list[current].album.blurPicUrl+"?param=500y500"'></q-img>
+                                <transition enter-active-class="animate__animated animate__zoomIn"
+                                            leave-active-class="animate__animated animate__zoomOut">
+                                    <q-btn class="btn" round :icon="`fas fa-${play?'pause':'play'}`"  v-show="!buffering"
+                                    :style="`top:${!play?'50%':'100%'};left:${!play?'50%':'100%'}`"></q-btn>
+                                </transition>
                             </div>
                         </vue-aspect-ratio>
-                        <div class="singers">Funk LeBlanc</div>
-                        <div class="album">Never Be Like You</div>
+                        <div class="singers">
+                            <span v-for="singer in list[current].artists" :key="singer.id">{{singer.name}}</span>
+                        </div>
+                        <div class="album">{{list[current].album.name}}</div>
                     </div>
                     <div class="right">
-                        <q-btn class="btn" round icon='fas fa-step-forward'></q-btn>
+                        <q-btn class="btn" round icon='fas fa-step-forward' size="lg" @click="next"></q-btn>
                     </div>
                 </div>
                 <div class="chart">
                     <div class="current">0:00</div>
-                    <div id="waveform"></div>
-                    <div class="duration">4:32</div>
+                    <div class="chart-box">
+                        <Loading class="loading" v-if='buffering'/>
+                        <div id="waveform"></div>
+                    </div>
+                    <div class="duration">{{duration}}</div>
                 </div>
             </div>
         </div>
@@ -38,25 +47,29 @@
 import VueAspectRatio from 'vue-aspect-ratio'
 import WaveSurfer from 'wavesurfer.js'
 import WaveSurferCursor from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
+import Loading from './loading'
 export default {
-    components:{VueAspectRatio},
+    components:{VueAspectRatio,Loading},
     data(){
         return{
-            url:"http://m8.music.126.net/20200821131632/25bc5dec4a32dc554886a1a37cdc6ced/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3439200750/bd5b/e85a/8cc5/645d04e1bc42c08d467dbe590de92bc3.mp3",
-            play:false,
-            wavesurfer:null
+            play:false,//是否播放
+            wavesurfer:null,
+            list:[],//歌曲列表
+            current:0,//当前播放下表
+            url:"",//当前歌曲地址
+            buffering:false
         }
     },
     computed:{
         duration(){
-            let time=this.data.dt
+            let time=this.list[this.current].duration
             let sec=parseInt(time%(1000*60)/1000)
             sec=sec<10?('0'+sec):sec
             return parseInt(time/(1000*60))+":"+sec
         }
     },
     mounted(){
-        this.waveInit()
+        this.getData()
     },
     watch:{
         play(v){
@@ -67,12 +80,24 @@ export default {
                 console.log('pause')
                 this.wavesurfer.pause()
             }
-        }
+        },
+        current(v){
+            this.getUrl(this.list[v].id)
+        },
+        url(v){
+            this.buffering=true
+            if(!this.wavesurfer){
+                this.waveInit()
+            }else{
+                this.wavesurfer.load(v)
+            }
+        },
     },
     methods:{
         waveInit(){
             let wavesurfer=WaveSurfer.create({
                 container:'#waveform',
+                height:50,
                 barWidth: 2,
                 barHeight: 1, 
                 cursorColor:'transparent',
@@ -95,7 +120,44 @@ export default {
                 ]
             })
             wavesurfer.load(this.url)
+            wavesurfer.on('ready',()=>{
+                this.buffering=false
+                if(this.wavesurfer&&this.current!==0){
+                    this.wavesurfer.play()
+                    this.play=true
+                }
+            })
             this.wavesurfer=wavesurfer
+        },
+        getData(){
+            this.$axios({
+                method:'get',
+                url:'/personal_fm'
+            }).then(res=>{
+                console.log(res)
+                if(res.data.code==200){
+                    if(this.list.length==0){
+                        this.getUrl(res.data.data[0].id)
+                    }
+                    this.list.push(...res.data.data)
+                }
+            })
+        },
+        getUrl(id){
+            this.$axios({
+                method:"get",
+                url:'/song/url?id='+id
+            }).then(res=>{
+                if(res.data.code==200){
+                    this.url=res.data.data[0].url
+                }
+            })
+        },
+        next(){//下一曲
+        console.log(this.current)
+            if(this.current+1<this.list.length){
+                this.current++
+            }
         }
     }
 }
@@ -121,17 +183,17 @@ export default {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                filter: blur(40px);
+                filter: blur(60px);
                 transform: scale(1.2);
                 position: absolute;
                 z-index: -1;
             }
         }
         .box{
-            height: 100vh;
+            height:100%;
             display: flex;
             flex-direction: column;
-            padding-bottom: 100px;
+            padding: 15px;
             .container{
                 flex: 1;
                 width: 100%;
@@ -164,11 +226,14 @@ export default {
                         font-weight: bold;
                         margin-bottom: 20px;
                         color: #fff;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
                     }
                     .singers{
                         color: rgba($color: #448AFF, $alpha: 1);
                         text-align: center;
-                        margin-top: 20px;
+                        margin-top: 15px;
+                        margin-bottom: 5px;
                         font-weight: bold;
                     }
                     .album{
@@ -179,7 +244,7 @@ export default {
                     }
                     .cover{
                         position: relative;
-                        background: pink;
+                        background: #fff;
                         width: 100%;
                         height: 100%;
                         margin: auto;
@@ -205,18 +270,25 @@ export default {
             .chart{
                 position: relative;
                 z-index: 9;
+                height: 100px;
+                padding: 20px 0;
+                box-sizing: border-box;
                 display: flex;
                 align-items: center;
-                #waveform{
-                    flex: 1;
-                    position: relative;
-                }
+                margin-bottom: 20px;
                 .current{
                     padding-right: 5px;
                     color: rgba($color: #fff, $alpha: 0.8);
                 }
                 .duration{
                     color: rgba($color: #fff, $alpha: 0.8);
+                }
+                .chart-box{
+                    flex: 1;
+                    position: relative;
+                    .loading{
+                        position: absolute;
+                    }
                 }
             }
         }

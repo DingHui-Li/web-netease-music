@@ -85,7 +85,7 @@ export default {
             align-items: flex-start;
             .title-box{
                 width: 100%;;
-                padding:15px;
+                padding:0 15px;
                 // line-height: 50px;
                 .name{
                     font-weight: bold;
